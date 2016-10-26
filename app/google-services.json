@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "180481137205",
+    "firebase_url": "https://pigeonchat-e9daf.firebaseio.com",
+    "project_id": "pigeonchat-e9daf",
+    "storage_bucket": "pigeonchat-e9daf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180481137205:android:37ca3c9cc8642001",
+        "android_client_info": {
+          "package_name": "cs222.bsu.edu.pigeonchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180481137205-ubi62oah6cb48faulcpp257kiu4jn1o1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cs222.bsu.edu.pigeonchat",
+            "certificate_hash": "CFB8F83FA247928F36CFD8E155B25867B051ED91"
+          }
+        },
+        {
+          "client_id": "180481137205-a8gdnepfup7spf76qamqh0hes01060pg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkEXiLTtOUn9XHFubIfntYs65lSi903kI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180481137205-a8gdnepfup7spf76qamqh0hes01060pg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
