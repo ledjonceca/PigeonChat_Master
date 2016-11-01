@@ -1,5 +1,6 @@
 package cs222.bsu.edu.pigeonchat;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,9 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,11 @@ public class ChatActivity extends AppCompatActivity {
     private String message;
     private ListView chatWindow;
     private ArrayList<String> messages = new ArrayList<>();
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private String mUsername;
 
 
     @Override
@@ -49,6 +58,22 @@ public class ChatActivity extends AppCompatActivity {
                 userMessage.getText().clear();
             }
         });
+
+        mUsername = "ANONYMOUS";
+
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
+            //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+        }
 
         rootRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -84,6 +109,6 @@ public class ChatActivity extends AppCompatActivity {
         rootRef.push().setValue(message);
     }
     private void createMessage(){
-        message = userName + ":  " + userMessage.getText().toString();
+        message = mUsername + ":  " + userMessage.getText().toString();
     }
 }
