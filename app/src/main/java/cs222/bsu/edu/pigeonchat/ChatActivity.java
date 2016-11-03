@@ -23,13 +23,13 @@ public class ChatActivity extends AppCompatActivity {
 
     private Button sendButton;
     private EditText userMessage;
-    private EditText createUserName;
+    //private EditText createUserName;
     private Firebase rootRef;
-    private String userName;
+    //private String userName;
     private String message;
     private ListView chatWindow;
     private ArrayList<String> messages = new ArrayList<>();
-
+    //private EmailTruncator truncator;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -42,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
         userMessage = (EditText) findViewById(R.id.userMessage);
-        createUserName = (EditText) findViewById(R.id.createUserName);
+        //createUserName = (EditText) findViewById(R.id.createUserName);
         sendButton = (Button) findViewById(R.id.sendButton);
         chatWindow = (ListView) findViewById(R.id.chatWindow);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
@@ -51,7 +51,7 @@ public class ChatActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                userName = createUserName.getText().toString();
+                //userName = createUserName.getText().toString();
 
                 createMessage();
                 sendMessage();
@@ -64,6 +64,7 @@ public class ChatActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        EmailTruncator truncator = new EmailTruncator();
 
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
@@ -71,7 +72,7 @@ public class ChatActivity extends AppCompatActivity {
             finish();
             return;
         } else {
-            mUsername = mFirebaseUser.getEmail();
+            mUsername = truncator.truncate(mFirebaseUser.getEmail());
             //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
         }
 

@@ -2,6 +2,7 @@ package cs222.bsu.edu.pigeonchat;
 
 
 public class EmailTruncator {
+
     public String truncate(String email){
         if (email.contains(".") && email.contains("@")){
             String username = "";
@@ -15,4 +16,5 @@ public class EmailTruncator {
             return null;
         }
     }
+
 }
