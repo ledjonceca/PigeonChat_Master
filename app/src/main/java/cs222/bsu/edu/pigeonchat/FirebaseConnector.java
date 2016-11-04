@@ -23,6 +23,8 @@ public class FirebaseConnector {
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
+    public FirebaseAuth getAuth() { return mFirebaseAuth; }
+
     public FirebaseUser getUser(){
         return mFirebaseUser;
     }
@@ -31,5 +33,9 @@ public class FirebaseConnector {
         return rootRef;
     }
 
+    public String getName() {
+        EmailTruncator truncator = new EmailTruncator();
+        return truncator.truncate(this.getUser().getEmail());
+    }
 
 }

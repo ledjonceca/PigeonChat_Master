@@ -11,11 +11,7 @@ import android.widget.ListView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -26,37 +22,20 @@ public class ChatActivity extends AppCompatActivity {
     private ListView chatWindow;
     private ArrayList<String> messages = new ArrayList<>();
     private String mUsername;
+    private final FirebaseConnector connector = new FirebaseConnector();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        final FirebaseConnector connector = new FirebaseConnector();
+        associateObjects();
+        addListeners();
         connector.authenticate();
-        EmailTruncator truncator = new EmailTruncator();
-
-        userMessage = (EditText) findViewById(R.id.userMessage);
-        sendButton = (Button) findViewById(R.id.sendButton);
-        chatWindow = (ListView) findViewById(R.id.chatWindow);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
         chatWindow.setAdapter(arrayAdapter);
-        sendButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                createMessage();
-                sendMessage(connector);
-                userMessage.getText().clear();
-            }
-        });
 
-        if (connector.getUser() == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
-        } else {
-            mUsername = truncator.truncate(connector.getUser().getEmail());
-        }
+        confirmUserExists();
 
         connector.getRootRef().addChildEventListener(new ChildEventListener() {
             @Override
@@ -67,31 +46,54 @@ public class ChatActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(FirebaseError firebaseError) { }
+        });
+    }
 
+    private void addListeners() {
+        sendButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                createMessage();
+                sendMessage();//connector);
+                userMessage.getText().clear();
             }
         });
     }
 
-    private void sendMessage(FirebaseConnector connector){
-        connector.getRootRef().push().setValue(message);
+    private void associateObjects() {
+        userMessage = (EditText) findViewById(R.id.userMessage);
+        sendButton = (Button) findViewById(R.id.sendButton);
+        chatWindow = (ListView) findViewById(R.id.chatWindow);
     }
+
+    private void confirmUserExists() {
+        if (connector.getUser() == null) {
+            goToLogin();
+        } else {
+            setUserName();
+        }
+    }
+
+    private void setUserName() { mUsername = connector.getName(); }
+
+    private void sendMessage(){ connector.getRootRef().push().setValue(message); }
+
     private void createMessage(){
         message = mUsername + ":  " + userMessage.getText().toString();
+    }
+
+    private void goToLogin() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 }

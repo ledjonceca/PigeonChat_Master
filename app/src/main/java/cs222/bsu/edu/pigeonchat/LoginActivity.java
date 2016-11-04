@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
     // Public fields
     private EditText etEmail;
     private EditText etPassword;
+    private Button bLogin;
+    private TextView registerLink;
 
     // FireBase
     private static final String TAG = "CustomAuthActivity";
@@ -36,10 +38,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etEmail =(EditText) findViewById(R.id.etEmail);
-        etPassword =(EditText) findViewById(R.id.etPassword);
-        Button bLogin = (Button) findViewById(R.id.bLogin);
-        TextView registerLink = (TextView) findViewById(R.id.tvRegisterHere);
+        associateObjects();
+        addListeners();
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+    }
+
+    private void addListeners() {
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,9 +60,6 @@ public class LoginActivity extends AppCompatActivity {
                 startSignIn();
             }
         });
-
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -74,7 +77,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+    }
 
+    private void associateObjects() {
+        etEmail =(EditText) findViewById(R.id.etEmail);
+        etPassword =(EditText) findViewById(R.id.etPassword);
+        bLogin = (Button) findViewById(R.id.bLogin);
+        registerLink = (TextView) findViewById(R.id.tvRegisterHere);
     }
 
     @Override
