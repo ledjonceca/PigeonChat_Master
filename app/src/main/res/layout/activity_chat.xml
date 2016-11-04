@@ -24,7 +24,9 @@
         android:id="@+id/chatWindow"
         android:layout_marginBottom="128dp"
         android:layout_above="@+id/sendButton"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"/>
 
     <EditText
         android:layout_width="match_parent"
