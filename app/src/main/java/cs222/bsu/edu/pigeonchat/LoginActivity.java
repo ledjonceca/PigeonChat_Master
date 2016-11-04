@@ -31,17 +31,18 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "CustomAuthActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private Firebase firebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mAuth = FirebaseAuth.getInstance();
+        setup();
+    }
 
+    private void setup() {
         associateObjects();
         addListeners();
-
-        mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
     }
 
