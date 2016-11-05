@@ -23,19 +23,29 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayList<String> messages = new ArrayList<>();
     private String mUsername;
     private final FirebaseConnector connector = new FirebaseConnector();
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        setup();
+    }
 
+    private void setup() {
+        connector.authenticate();
+        confirmUserExists();
         associateObjects();
         addListeners();
-        connector.authenticate();
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
-        chatWindow.setAdapter(arrayAdapter);
+    }
 
-        confirmUserExists();
+    private void addListeners() {
+        sendButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                sendMessage();
+            }
+        });
 
         connector.getRootRef().addChildEventListener(new ChildEventListener() {
             @Override
@@ -59,21 +69,18 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void addListeners() {
-        sendButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                createMessage();
-                sendMessage();
-                userMessage.getText().clear();
-            }
-        });
+    private void sendMessage() {
+        createMessage();
+        pushMessage();
+        userMessage.getText().clear();
     }
 
     private void associateObjects() {
         userMessage = (EditText) findViewById(R.id.userMessage);
         sendButton = (Button) findViewById(R.id.sendButton);
         chatWindow = (ListView) findViewById(R.id.chatWindow);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
+        chatWindow.setAdapter(arrayAdapter);
     }
 
     private void confirmUserExists() {
@@ -86,7 +93,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUserName() { mUsername = connector.getName(); }
 
-    private void sendMessage(){ connector.getRootRef().push().setValue(message); }
+    private void pushMessage(){ connector.getRootRef().push().setValue(message); }
 
     private void createMessage(){
         message = mUsername + ":  " + userMessage.getText().toString();

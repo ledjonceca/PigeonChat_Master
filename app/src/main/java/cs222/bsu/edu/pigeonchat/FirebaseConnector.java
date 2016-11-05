@@ -23,7 +23,7 @@ public class FirebaseConnector {
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
-    public FirebaseAuth getAuth() { return mFirebaseAuth; }
+    //public FirebaseAuth getAuth() { return mFirebaseAuth; }
 
     public FirebaseUser getUser(){
         return mFirebaseUser;

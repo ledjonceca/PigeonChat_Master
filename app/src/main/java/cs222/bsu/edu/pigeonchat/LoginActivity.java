@@ -1,5 +1,6 @@
 package cs222.bsu.edu.pigeonchat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,14 +20,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // Public fields
     private EditText etEmail;
     private EditText etPassword;
     private Button bLogin;
-    private TextView registerLink;
-
-    // FireBase
-    private static final String TAG = "CustomAuthActivity";
+    private Toaster toaster = new Toaster(LoginActivity.this);
+    private static final String TAG = "LoginActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -40,53 +36,6 @@ public class LoginActivity extends AppCompatActivity {
         setup();
     }
 
-    private void setup() {
-        associateObjects();
-        addListeners();
-        mAuth.signOut();
-    }
-
-    private void addListeners() {
-        registerLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                //LoginActivity.this.startActivity(registerIntent);
-            }
-        });
-
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startSignIn();
-            }
-        });
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Toast.makeText(LoginActivity.this,"Logged in successfully", Toast.LENGTH_LONG).show();
-                    Intent loginIntent = new Intent(LoginActivity.this, ChatActivity.class);
-                    LoginActivity.this.startActivity(loginIntent);
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-    }
-
-    private void associateObjects() {
-        etEmail =(EditText) findViewById(R.id.etEmail);
-        etPassword =(EditText) findViewById(R.id.etPassword);
-        bLogin = (Button) findViewById(R.id.bLogin);
-        registerLink = (TextView) findViewById(R.id.tvRegisterHere);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -96,28 +45,82 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+        if (mAuthListener != null) { mAuth.removeAuthStateListener(mAuthListener); }
+    }
+
+    private void setup() {
+        associateObjects();
+        addListeners();
+        mAuth.signOut();
+    }
+
+    private void associateObjects() {
+        etEmail =(EditText) findViewById(R.id.etEmail);
+        etPassword =(EditText) findViewById(R.id.etPassword);
+        bLogin = (Button) findViewById(R.id.bLogin);
+    }
+
+    private void addListeners() {
+        bLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    signIn(user);
+                } else {
+                    signOut();
+                }
+            }
+        };
+    }
+
+    private void logOutput(String message) {
+        Log.d(TAG, message);
+    }
+
+    private void signIn(FirebaseUser user) {
+        logOutput("Auth-State changed: " + user.getUid() + " has signed in.");
+        toaster.popUp("logged in successfully");
+        openChatActivity();
+    }
+
+    private void signOut() {
+        logOutput("Auth-State changed: A user has signed out");
+    }
+
+    private void attemptLogin() {
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
+            toaster.popUp("Please enter an email or password");
+        }
+        else{
+            validateLogin(email, password);
         }
     }
 
-    private void startSignIn() {
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-            Toast.makeText(LoginActivity.this,"Please enter an email or password", Toast.LENGTH_LONG).show();
-        }
-        else{
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(!task.isSuccessful() ){
-                        Toast.makeText(LoginActivity.this,"Invalid username or password", Toast.LENGTH_LONG).show();
-                    }
+    private void validateLogin(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful() ){
+                    toaster.popUp("invalid username or password!");
                 }
-            });
-        }
+            }
+        });
+    }
+
+    private void openChatActivity() {
+        Context currentActivity = LoginActivity.this;
+        Intent chatIntent = new Intent(LoginActivity.this, ChatActivity.class);
+        currentActivity.startActivity( chatIntent );
     }
 
 }
