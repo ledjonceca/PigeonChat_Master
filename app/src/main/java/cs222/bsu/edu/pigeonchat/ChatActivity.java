@@ -24,56 +24,65 @@ public class ChatActivity extends AppCompatActivity {
     private String mUsername;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
+    private MessageManager messageManager;
+    private String newMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setup();
+        messageManager = new MessageManager();
+
+
+        sendButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //userName = createUserName.getText().toString();
+                createMessage();
+                messageManager.sendMessage(message);
+                userMessage.getText().clear();
+            }
+        });
+
+        messageManager.addListener(new MessageManagerListener() {
+            @Override
+            public void onMessageReceived() {
+                newMessages = messageManager.postNewMessage();
+                messages.add(newMessages);
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 
     private void setup() {
         connector.authenticate();
         confirmUserExists();
         associateObjects();
-        addListeners();
+       // addListeners();
     }
-
+/*
     private void addListeners() {
-        sendButton.setOnClickListener(new View.OnClickListener(){
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 sendMessage();
             }
         });
 
-        connector.getRootRef().addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String newMessages = dataSnapshot.getValue(String.class);
-                messages.add(newMessages);
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) { }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) { }
-        });
     }
+    */
 
+
+/*
     private void sendMessage() {
         createMessage();
-        pushMessage();
+        //pushMessage();
         userMessage.getText().clear();
     }
+    */
 
     private void associateObjects() {
         userMessage = (EditText) findViewById(R.id.userMessage);
@@ -93,7 +102,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUserName() { mUsername = connector.getName(); }
 
-    private void pushMessage(){ connector.getRootRef().push().setValue(message); }
+    //private void pushMessage(){ connector.getRootRef().push().setValue(message); }
 
     private void createMessage(){
         message = mUsername + ":  " + userMessage.getText().toString();
