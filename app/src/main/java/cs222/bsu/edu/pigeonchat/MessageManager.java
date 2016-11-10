@@ -19,6 +19,7 @@ public class MessageManager {
     private Firebase rootRef;
     private String newMessages;
     private final List<MessageManagerListener> listeners = Lists.newArrayList();
+    //private FirebaseConnector connector = new FirebaseConnector();
 
     public MessageManager(){
         rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");

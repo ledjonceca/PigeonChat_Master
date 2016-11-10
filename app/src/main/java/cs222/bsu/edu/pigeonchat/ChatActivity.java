@@ -9,10 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
@@ -24,7 +20,7 @@ public class ChatActivity extends AppCompatActivity {
     private String mUsername;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
-    private MessageManager messageManager;
+    private MessageManager messageManager = new MessageManager();
     private String newMessages;
 
     @Override
@@ -32,16 +28,23 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         setup();
-        messageManager = new MessageManager();
+    }
 
+    private void setup() {
+        connector.authenticate();
+        confirmUserExists();
+        associateObjects();
+        addListeners();
+    }
 
+    private void addListeners() {
         sendButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //userName = createUserName.getText().toString();
-                createMessage();
-                messageManager.sendMessage(message);
-                userMessage.getText().clear();
+                sendMessage();
+                //createMessage();
+                //messageManager.sendMessage(message);
+                //userMessage.getText().clear();
             }
         });
 
@@ -53,36 +56,7 @@ public class ChatActivity extends AppCompatActivity {
                 arrayAdapter.notifyDataSetChanged();
             }
         });
-
-
     }
-
-    private void setup() {
-        connector.authenticate();
-        confirmUserExists();
-        associateObjects();
-       // addListeners();
-    }
-/*
-    private void addListeners() {
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });
-
-    }
-    */
-
-
-/*
-    private void sendMessage() {
-        createMessage();
-        //pushMessage();
-        userMessage.getText().clear();
-    }
-    */
 
     private void associateObjects() {
         userMessage = (EditText) findViewById(R.id.userMessage);
@@ -102,7 +76,11 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUserName() { mUsername = connector.getName(); }
 
-    //private void pushMessage(){ connector.getRootRef().push().setValue(message); }
+    private void sendMessage() {
+        createMessage();
+        messageManager.sendMessage(message);
+        userMessage.getText().clear();
+    }
 
     private void createMessage(){
         message = mUsername + ":  " + userMessage.getText().toString();
