@@ -31,7 +31,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void setup() {
-        connector.authenticate();
         confirmUserExists();
         associateObjects();
         addListeners();

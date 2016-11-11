@@ -14,10 +14,7 @@ public class FirebaseConnector {
     private FirebaseUser mFirebaseUser;
     private Firebase rootRef;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
-    public void authenticate(){
+    public FirebaseConnector(){
         rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
