@@ -22,6 +22,9 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter;
     private MessageManager messageManager = new MessageManager();
     private String newMessages;
+    //private Message message;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void createMessage(){
-        message = mUsername + ":  " + userMessage.getText().toString();
+        //message = mUsername + ":  " + userMessage.getText().toString();
+        message = new Message(mUsername, userMessage.getText().toString()).getMessage();
     }
 
     private void goToLogin() {
