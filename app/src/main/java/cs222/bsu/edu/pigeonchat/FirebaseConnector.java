@@ -31,8 +31,7 @@ public class FirebaseConnector {
     }
 
     public String getName() {
-        //EmailTruncator truncator = new EmailTruncator(this.getUser().getEmail());
-        return this.getUser().getEmail(); //truncator.truncate();
+        return this.getUser().getEmail();
     }
 
 }
