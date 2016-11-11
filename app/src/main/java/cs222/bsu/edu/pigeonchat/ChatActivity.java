@@ -42,9 +42,6 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 sendMessage();
-                //createMessage();
-                //messageManager.sendMessage(message);
-                //userMessage.getText().clear();
             }
         });
 
