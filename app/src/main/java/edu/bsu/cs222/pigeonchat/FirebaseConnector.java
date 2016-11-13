@@ -4,7 +4,7 @@ import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class FirebaseConnector {
+ class FirebaseConnector {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private Firebase rootRef;
@@ -17,10 +17,6 @@ public class FirebaseConnector {
 
     public FirebaseUser getUser(){
         return mFirebaseUser;
-    }
-
-    public Firebase getRootRef(){
-        return rootRef;
     }
 
     public String getName() {
