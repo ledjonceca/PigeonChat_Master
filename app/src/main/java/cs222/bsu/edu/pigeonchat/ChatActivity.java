@@ -35,7 +35,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setup() {
         confirmUserExists();
-        associateObjects();
+        associateViewItemsWithModel();
         addListeners();
     }
 
@@ -57,7 +57,7 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void associateObjects() {
+    private void associateViewItemsWithModel() {
         userMessage = (EditText) findViewById(R.id.userMessage);
         sendButton = (Button) findViewById(R.id.sendButton);
         chatWindow = (ListView) findViewById(R.id.chatWindow);

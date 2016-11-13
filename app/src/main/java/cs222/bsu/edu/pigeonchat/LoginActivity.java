@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,12 +48,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setup() {
-        associateObjects();
+        associateViewItemsWithModel();
         addListeners();
         mAuth.signOut();
     }
 
-    private void associateObjects() {
+    private void associateViewItemsWithModel() {
         etEmail =(EditText) findViewById(R.id.etEmail);
         etPassword =(EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
