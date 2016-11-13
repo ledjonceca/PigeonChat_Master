@@ -1,4 +1,4 @@
-package cs222.bsu.edu.pigeonchat;
+package edu.bsu.cs222.pigeonchat;
 
 public interface MessageManagerListener {
     void onMessageReceived();

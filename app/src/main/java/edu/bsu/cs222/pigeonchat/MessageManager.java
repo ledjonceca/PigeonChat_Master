@@ -1,4 +1,4 @@
-package cs222.bsu.edu.pigeonchat;
+package edu.bsu.cs222.pigeonchat;
 
 import android.support.test.espresso.core.deps.guava.base.Preconditions;
 import android.support.test.espresso.core.deps.guava.collect.Lists;

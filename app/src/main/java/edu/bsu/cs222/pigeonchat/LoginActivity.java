@@ -1,4 +1,4 @@
-package cs222.bsu.edu.pigeonchat;
+package edu.bsu.cs222.pigeonchat;
 
 import android.content.Context;
 import android.content.Intent;

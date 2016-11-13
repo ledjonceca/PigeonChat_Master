@@ -1,7 +1,6 @@
-package cs222.bsu.edu.pigeonchat;
+package edu.bsu.cs222.pigeonchat;
 
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

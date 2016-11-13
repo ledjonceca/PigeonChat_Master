@@ -1,10 +1,8 @@
-package cs222.bsu.edu.pigeonchat;
+package edu.bsu.cs222.pigeonchat;
 
 import android.app.Application;
 
 import com.firebase.client.Firebase;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class PigeonChat extends Application {
     @Override

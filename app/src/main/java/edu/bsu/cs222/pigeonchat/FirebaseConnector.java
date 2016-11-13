@@ -1,9 +1,4 @@
-package cs222.bsu.edu.pigeonchat;
-
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
+package edu.bsu.cs222.pigeonchat;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;

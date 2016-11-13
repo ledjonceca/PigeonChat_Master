@@ -1,4 +1,4 @@
-package cs222.bsu.edu.pigeonchat;
+package edu.bsu.cs222.pigeonchat;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +15,6 @@ public class ChatActivity extends AppCompatActivity {
     private Button sendButton;
     private EditText userMessage;
     private String message;
-    private ListView chatWindow;
     private ArrayList<String> messages = new ArrayList<>();
     private String mUsername;
     private final FirebaseConnector connector = new FirebaseConnector();
@@ -57,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
     private void associateViewItemsWithModel() {
         userMessage = (EditText) findViewById(R.id.userMessage);
         sendButton = (Button) findViewById(R.id.sendButton);
-        chatWindow = (ListView) findViewById(R.id.chatWindow);
+        ListView chatWindow = (ListView) findViewById(R.id.chatWindow);
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messages);
         chatWindow.setAdapter(arrayAdapter);
     }

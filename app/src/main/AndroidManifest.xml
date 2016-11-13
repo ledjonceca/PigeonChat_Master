@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cs222.bsu.edu.pigeonchat">
+    package="edu.bsu.cs222.pigeonchat">
 
     <application
-        android:name=".PigeonChat"
+        android:name="edu.bsu.cs222.pigeonchat.PigeonChat"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name="edu.bsu.cs222.pigeonchat.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatActivity"
+        <activity android:name="edu.bsu.cs222.pigeonchat.ChatActivity"
             android:label="ChatActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
