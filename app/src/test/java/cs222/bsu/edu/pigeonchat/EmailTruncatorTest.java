@@ -7,21 +7,29 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class EmailTruncatorTest {
-    EmailTruncator truncator = new EmailTruncator();
-
+    private EmailTruncator truncator;
     @Test
     public void validEmail(){
-        assertEquals("jdlevy95", truncator.truncate("jdlevy95@gmail.com"));
+        truncator = new EmailTruncator("jdlevy95@gmail.com");
+        assertEquals("jdlevy95", truncator.truncate());
     }
     @Test
-    public void validEmailMultiplePeriods(){assertEquals("user.name", truncator.truncate("user.name@website.com"));}
+    public void validEmailMultiplePeriods(){
+        truncator = new EmailTruncator("user.name@website.com");
+        assertEquals("user.name", truncator.truncate());}
+
     @Test
     public void invalidEmailNoAt(){
-        assertEquals(null, truncator.truncate("bob.com"));
+        truncator = new EmailTruncator("bob.com");
+        assertEquals(null, truncator.truncate());
     }
     @Test
-    public void multipleAt(){assertEquals("@@bob.@@", truncator.truncate("@@bob.@@@"));}
+    public void multipleAt(){
+        truncator = new EmailTruncator("@@bob.@@@");
+        assertEquals("@@bob.@@", truncator.truncate());}
     @Test
-    public void multipleAtAndPeriod() {assertEquals("joel.d@vid.levy", truncator.truncate("joel.d@vid.levy@gmail.com"));}
+    public void multipleAtAndPeriod() {
+        truncator = new EmailTruncator("joel.d@vid.levy@gmail.com");
+        assertEquals("joel.d@vid.levy", truncator.truncate());}
 
 }

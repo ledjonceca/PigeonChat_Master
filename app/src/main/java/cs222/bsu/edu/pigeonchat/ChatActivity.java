@@ -22,9 +22,6 @@ public class ChatActivity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter;
     private MessageManager messageManager = new MessageManager();
     private String newMessages;
-    //private Message message;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         userMessage = (EditText) findViewById(R.id.userMessage);
         sendButton = (Button) findViewById(R.id.sendButton);
         chatWindow = (ListView) findViewById(R.id.chatWindow);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messages);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messages);
         chatWindow.setAdapter(arrayAdapter);
     }
 
@@ -82,7 +79,6 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void createMessage(){
-        //message = mUsername + ":  " + userMessage.getText().toString();
         message = new Message(mUsername, userMessage.getText().toString()).getMessage();
     }
 

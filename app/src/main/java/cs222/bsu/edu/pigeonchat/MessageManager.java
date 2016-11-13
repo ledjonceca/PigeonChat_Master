@@ -10,16 +10,11 @@ import com.firebase.client.FirebaseError;
 
 import java.util.List;
 
-/**
- * Created by phil on 11/2/2016.
- */
-
 public class MessageManager {
 
     private Firebase rootRef;
     private String newMessages;
     private final List<MessageManagerListener> listeners = Lists.newArrayList();
-    //private FirebaseConnector connector = new FirebaseConnector();
 
     public MessageManager(){
         rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
@@ -69,10 +64,5 @@ public class MessageManager {
     public String postNewMessage(){
         return newMessages;
     }
-/*
-    public String getMessage() {
-        newMessages = dataSnapshot.getValue(String.class);
-        return newMessages;
-    }
-    */
+
 }
