@@ -46,7 +46,7 @@ public class ChatActivity extends AppCompatActivity {
         messageManager.addListener(new MessageManagerListener() {
             @Override
             public void onMessageReceived() {
-                newMessages = messageManager.postNewMessage();
+                newMessages = messageManager.getNewMessage();
                 messages.add(newMessages);
                 arrayAdapter.notifyDataSetChanged();
             }

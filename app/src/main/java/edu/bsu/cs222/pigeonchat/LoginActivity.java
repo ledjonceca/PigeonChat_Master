@@ -19,55 +19,55 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etEmail;
-    private EditText etPassword;
-    private Button bLogin;
+    private EditText emailInput;
+    private EditText passwordInput;
+    private Button loginButton;
     private Toaster toaster = new Toaster(LoginActivity.this);
     private static final String TAG = "LoginActivity";
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth authenticator;
+    private FirebaseAuth.AuthStateListener authListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
+        authenticator = FirebaseAuth.getInstance();
         setup();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        authenticator.addAuthStateListener(authListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mAuthListener != null) { mAuth.removeAuthStateListener(mAuthListener); }
+        if (authListener != null) { authenticator.removeAuthStateListener(authListener); }
     }
 
     private void setup() {
         associateViewItemsWithModel();
         addListeners();
-        mAuth.signOut();
+        authenticator.signOut();
     }
 
     private void associateViewItemsWithModel() {
-        etEmail =(EditText) findViewById(R.id.etEmail);
-        etPassword =(EditText) findViewById(R.id.etPassword);
-        bLogin = (Button) findViewById(R.id.bLogin);
+        emailInput =(EditText) findViewById(R.id.etEmail);
+        passwordInput =(EditText) findViewById(R.id.etPassword);
+        loginButton = (Button) findViewById(R.id.bLogin);
     }
 
     private void addListeners() {
-        bLogin.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+        authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -95,8 +95,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
             toaster.popUp("Please enter an email or password");
         }
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validateLogin(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        authenticator.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(!task.isSuccessful() ){

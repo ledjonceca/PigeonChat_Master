@@ -18,40 +18,29 @@ public class MessageManager {
 
     public MessageManager(){
         rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
-
         rootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 newMessages = dataSnapshot.getValue(String.class);
-
                 for(MessageManagerListener listener : listeners){
                     listener.onMessageReceived();
                 }
-
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {            }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {            }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {            }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {            }
         });
     }
+
     public void addListener(MessageManagerListener listener){
         Preconditions.checkNotNull(listener);
         listeners.add(listener);
@@ -61,7 +50,7 @@ public class MessageManager {
         rootRef.push().setValue(userMessage);
     }
 
-    public String postNewMessage(){
+    public String getNewMessage(){
         return newMessages;
     }
 
