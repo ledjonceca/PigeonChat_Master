@@ -17,7 +17,7 @@ public class ChatActivity extends AppCompatActivity {
     private Message message;
     private String messageText;
     private ArrayList<String> messages = new ArrayList<>();
-    private String mUsername;
+    private String username;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
     private MessageManager messageManager = new MessageManager();
@@ -70,11 +70,15 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    private void setUserName() { mUsername = connector.getName(); }
+    private void setUserName() { username = connector.getName(); }
 
     private void createMessage(){
-        message = new Message.MessageBuilder().email(mUsername).content(userMessage.getText().toString()).build();
+        message = new Message.MessageBuilder().email(username).content(getContentOfTextbox()).build();
         messageText = message.getMessage();
+    }
+
+    private String getContentOfTextbox() {
+        return userMessage.getText().toString();
     }
 
     private void sendMessage() {
