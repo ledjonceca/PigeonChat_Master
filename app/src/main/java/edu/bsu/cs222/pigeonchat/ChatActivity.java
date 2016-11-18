@@ -14,7 +14,8 @@ import java.util.ArrayList;
 public class ChatActivity extends AppCompatActivity {
     private Button sendButton;
     private EditText userMessage;
-    private String message;
+    private Message message;
+    private String messageText;
     private ArrayList<String> messages = new ArrayList<>();
     private String mUsername;
     private final FirebaseConnector connector = new FirebaseConnector();
@@ -71,14 +72,15 @@ public class ChatActivity extends AppCompatActivity {
 
     private void setUserName() { mUsername = connector.getName(); }
 
-    private void sendMessage() {
-        createMessage();
-        messageManager.sendMessage(message);
-        userMessage.getText().clear();
+    private void createMessage(){
+        message = new Message.MessageBuilder().email(mUsername).content(userMessage.getText().toString()).build();
+        messageText = message.getMessage();
     }
 
-    private void createMessage(){
-        message = new Message(mUsername, userMessage.getText().toString()).getMessage();
+    private void sendMessage() {
+        createMessage();
+        messageManager.sendMessage(messageText);
+        userMessage.getText().clear();
     }
 
     private void goToLogin() {

@@ -4,12 +4,31 @@ public class Message {
     private String content;
     private String username;
 
-    public Message(String email, String content)  {
-        this.content = content;
-        username = new EmailTruncator(email).truncate();
+    public Message(MessageBuilder builder)  {
+        this.content = builder.content;
+        this.username = new EmailTruncator(builder.email).truncate();
     }
 
      String getMessage(){
         return username + ": " + content;
     }
+
+    public static class MessageBuilder {
+        private String content, email;
+
+       public MessageBuilder email(String email) {
+           this.email = email;
+           return this;
+       }
+
+        public MessageBuilder content(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public Message build() {
+            return new Message(this);
+        }
+    }
+
 }
