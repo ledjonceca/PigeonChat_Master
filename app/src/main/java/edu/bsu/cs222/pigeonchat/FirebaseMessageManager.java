@@ -49,7 +49,6 @@ public class FirebaseMessageManager implements MessageManager{
     }
 
     public void sendMessage(String userMessage) {
-        //rootRef.push().setValue(userMessage);
         pusher.push(userMessage);
     }
 

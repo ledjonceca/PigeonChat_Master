@@ -8,6 +8,4 @@ public interface Pushable {
 
     void push(String input);
 
-    String getMessage();
-
 }

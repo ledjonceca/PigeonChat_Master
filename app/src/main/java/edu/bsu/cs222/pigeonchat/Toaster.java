@@ -11,5 +11,4 @@ public class Toaster {
     public void popUp(String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
-
 }

@@ -18,7 +18,4 @@ public class FirebasePusher implements Pushable {
         rootRef.push().setValue(input);
     }
 
-    public String getMessage() {
-        return  null;
-    }
 }

@@ -6,7 +6,7 @@ package edu.bsu.cs222.pigeonchat;
 
 public class TestableMessageManager implements MessageManager{
 
-    private Pushable pusher = new TestablePusher();
+    private TestablePusher pusher = new TestablePusher();
 
     public void sendMessage(String testMessage) {
         pusher.push(testMessage);
