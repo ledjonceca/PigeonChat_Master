@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 
      public Firebase getRootRef() { return rootRef; }
 
-     public Pushable getPushable() { return new FirebasePusher();  }
-
      public FirebaseUser getUser(){
         return firebaseUser;
     }

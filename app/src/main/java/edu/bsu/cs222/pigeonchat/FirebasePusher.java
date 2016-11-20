@@ -2,16 +2,13 @@ package edu.bsu.cs222.pigeonchat;
 
 import com.firebase.client.Firebase;
 
-/**
- * Created by brian on 11/20/2016.
- */
-
 public class FirebasePusher implements Pushable {
 
+    private FirebaseConnector connector = new FirebaseConnector();
     private Firebase rootRef;
 
     public FirebasePusher() {
-        rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
+        rootRef = connector.getRootRef();
     }
 
     public void push(String input) {
