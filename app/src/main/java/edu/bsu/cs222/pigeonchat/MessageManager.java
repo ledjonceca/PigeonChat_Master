@@ -15,6 +15,7 @@ public class MessageManager {
     private Firebase rootRef;
     private String newMessages;
     private final List<MessageManagerListener> listeners = Lists.newArrayList();
+    private Pushable pusher = new FirebasePusher();
 
     public MessageManager(){
         rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
@@ -47,7 +48,8 @@ public class MessageManager {
     }
 
     public void sendMessage(String userMessage) {
-        rootRef.push().setValue(userMessage);
+        //rootRef.push().setValue(userMessage);
+        pusher.push(userMessage);
     }
 
     public String getNewMessage(){
