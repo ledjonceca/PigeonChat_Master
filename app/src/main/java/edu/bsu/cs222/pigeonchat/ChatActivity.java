@@ -71,8 +71,7 @@ public class ChatActivity extends AppCompatActivity {
     private void setEmail() { email = connector.getName(); }
 
     private void sendMessage() {
-        //String messageText = createMessage().getMessageText();
-        firebaseMessageRelay.sendMessage(createMessage());
+        firebaseMessageRelay.sendMessage(createMessageToSend());
         clearMessageInputField();
     }
 
@@ -80,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         userMessage.getText().clear();
     }
 
-    private String createMessage(){
+    private String createMessageToSend(){
         Message message = new Message.MessageBuilder().email(email).content(getContentOfTextbox()).build();
         return message.getMessageText();
     }
