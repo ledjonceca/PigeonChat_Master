@@ -20,7 +20,7 @@ public class ChatActivity extends AppCompatActivity {
     private String username;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
-    private MessageManager messageManager = new MessageManager();
+    private FirebaseMessageManager firebaseMessageManager = new FirebaseMessageManager();
     private String newMessages;
 
     @Override
@@ -44,10 +44,10 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        messageManager.addListener(new MessageManagerListener() {
+        firebaseMessageManager.addListener(new MessageManagerListener() {
             @Override
             public void onMessageReceived() {
-                newMessages = messageManager.getNewMessage();
+                newMessages = firebaseMessageManager.getNewMessage();
                 messages.add(newMessages);
                 arrayAdapter.notifyDataSetChanged();
             }
@@ -83,7 +83,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage() {
         createMessage();
-        messageManager.sendMessage(messageText);
+        firebaseMessageManager.sendMessage(messageText);
         userMessage.getText().clear();
     }
 
