@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MessageManagerTest {
-    private MessageManager msgManager = new TestableMessageManager();
+public class MessageRelayTest {
+    private MessageRelay msgManager = new TestableMessageRelay();
     @Test
     public void testMessagePushed(){
         msgManager.sendMessage("hello world");

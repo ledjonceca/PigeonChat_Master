@@ -1,5 +1,5 @@
 package edu.bsu.cs222.pigeonchat;
 
-public interface MessageManagerListener {
+public interface MessageRelayListener {
     void onMessageReceived();
 }

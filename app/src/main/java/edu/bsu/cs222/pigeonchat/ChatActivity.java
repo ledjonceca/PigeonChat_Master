@@ -18,7 +18,7 @@ public class ChatActivity extends AppCompatActivity {
     private String email;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
-    private FirebaseMessageManager firebaseMessageManager = new FirebaseMessageManager();
+    private FirebaseMessageRelay firebaseMessageManager = new FirebaseMessageRelay();
     private String newMessages;
 
     @Override
@@ -42,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        firebaseMessageManager.addListener(new MessageManagerListener() {
+        firebaseMessageManager.addListener(new MessageRelayListener() {
             @Override
             public void onMessageReceived() {
                 newMessages = firebaseMessageManager.getNewMessage();

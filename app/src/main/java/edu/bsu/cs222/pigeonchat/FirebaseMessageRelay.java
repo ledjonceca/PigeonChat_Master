@@ -10,21 +10,21 @@ import com.firebase.client.FirebaseError;
 
 import java.util.List;
 
-public class FirebaseMessageManager implements MessageManager{
+public class FirebaseMessageRelay implements MessageRelay {
 
     private Firebase rootRef;
     private FirebaseConnector connector = new FirebaseConnector();
     private String newMessages;
-    private final List<MessageManagerListener> listeners = Lists.newArrayList();
+    private final List<MessageRelayListener> listeners = Lists.newArrayList();
     private Pushable pusher = new FirebasePusher();
 
-    public FirebaseMessageManager(){
+    public FirebaseMessageRelay(){
         rootRef = connector.getRootRef();
         rootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 newMessages = dataSnapshot.getValue(String.class);
-                for(MessageManagerListener listener : listeners){
+                for(MessageRelayListener listener : listeners){
                     listener.onMessageReceived();
                 }
             }
@@ -43,7 +43,7 @@ public class FirebaseMessageManager implements MessageManager{
         });
     }
 
-    public void addListener(MessageManagerListener listener){
+    public void addListener(MessageRelayListener listener){
         Preconditions.checkNotNull(listener);
         listeners.add(listener);
     }
