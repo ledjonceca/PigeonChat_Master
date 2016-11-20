@@ -9,7 +9,7 @@ public class Message {
         this.username = new EmailTruncator(builder.email).truncate();
     }
 
-     String getMessage(){
+    String getMessageText(){
         return username + ": " + content;
     }
 

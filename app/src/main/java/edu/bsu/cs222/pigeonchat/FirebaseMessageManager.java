@@ -19,7 +19,7 @@ public class FirebaseMessageManager implements MessageManager{
     private Pushable pusher = new FirebasePusher();
 
     public FirebaseMessageManager(){
-        rootRef = connector.getRootRef(); //new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
+        rootRef = connector.getRootRef();
         rootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

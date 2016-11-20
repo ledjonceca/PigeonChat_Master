@@ -14,10 +14,8 @@ import java.util.ArrayList;
 public class ChatActivity extends AppCompatActivity {
     private Button sendButton;
     private EditText userMessage;
-    private Message message;
-    private String messageText;
     private ArrayList<String> messages = new ArrayList<>();
-    private String username;
+    private String email;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
     private FirebaseMessageManager firebaseMessageManager = new FirebaseMessageManager();
@@ -66,25 +64,25 @@ public class ChatActivity extends AppCompatActivity {
         if (connector.getUser() == null) {
             goToLogin();
         } else {
-            setUserName();
+            setEmail();
         }
     }
 
-    private void setUserName() { username = connector.getName(); }
+    private void setEmail() { email = connector.getName(); }
 
-    private void createMessage(){
-        message = new Message.MessageBuilder().email(username).content(getContentOfTextbox()).build();
-        messageText = message.getMessage();
+    private void sendMessage() {
+        String messageText = createMessage().getMessageText();
+        firebaseMessageManager.sendMessage(messageText);
+        userMessage.getText().clear();
+    }
+
+    private Message createMessage(){
+        Message message = new Message.MessageBuilder().email(email).content(getContentOfTextbox()).build();
+        return message;
     }
 
     private String getContentOfTextbox() {
         return userMessage.getText().toString();
-    }
-
-    private void sendMessage() {
-        createMessage();
-        firebaseMessageManager.sendMessage(messageText);
-        userMessage.getText().clear();
     }
 
     private void goToLogin() {
