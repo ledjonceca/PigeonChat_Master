@@ -18,7 +18,7 @@ public class ChatActivity extends AppCompatActivity {
     private String email;
     private final FirebaseConnector connector = new FirebaseConnector();
     private ArrayAdapter<String> arrayAdapter;
-    private FirebaseMessageRelay firebaseMessageManager = new FirebaseMessageRelay();
+    private FirebaseMessageRelay firebaseMessageRelay = new FirebaseMessageRelay();
     private String newMessages;
 
     @Override
@@ -42,10 +42,10 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        firebaseMessageManager.addListener(new MessageRelayListener() {
+        firebaseMessageRelay.addListener(new MessageRelayListener() {
             @Override
             public void onMessageReceived() {
-                newMessages = firebaseMessageManager.getNewMessage();
+                newMessages = firebaseMessageRelay.getNewMessage();
                 messages.add(newMessages);
                 arrayAdapter.notifyDataSetChanged();
             }
@@ -71,14 +71,18 @@ public class ChatActivity extends AppCompatActivity {
     private void setEmail() { email = connector.getName(); }
 
     private void sendMessage() {
-        String messageText = createMessage().getMessageText();
-        firebaseMessageManager.sendMessage(messageText);
+        //String messageText = createMessage().getMessageText();
+        firebaseMessageRelay.sendMessage(createMessage());
+        clearMessageInputField();
+    }
+
+    private void clearMessageInputField() {
         userMessage.getText().clear();
     }
 
-    private Message createMessage(){
+    private String createMessage(){
         Message message = new Message.MessageBuilder().email(email).content(getContentOfTextbox()).build();
-        return message;
+        return message.getMessageText();
     }
 
     private String getContentOfTextbox() {
