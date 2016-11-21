@@ -2,12 +2,10 @@ package edu.bsu.cs222.pigeonchat;
 
 import android.support.test.espresso.core.deps.guava.base.Preconditions;
 import android.support.test.espresso.core.deps.guava.collect.Lists;
-
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-
 import java.util.List;
 
 public class FirebaseMessageRelay implements MessageRelay {
@@ -15,16 +13,20 @@ public class FirebaseMessageRelay implements MessageRelay {
     private Firebase rootRef;
     private FirebaseConnector connector = new FirebaseConnector();
     private String newMessages;
-    private final List<MessageRelayListener> listeners = Lists.newArrayList();
-    private Pushable pusher = new FirebasePusher();
+    private final List<MessageRelayListener> observers = Lists.newArrayList();
+    private Pushable firebasePusher = new FirebasePusher();
 
     public FirebaseMessageRelay(){
         rootRef = connector.getRootRef();
+        addRootRefListener();
+    }
+
+    private void addRootRefListener() {
         rootRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 newMessages = dataSnapshot.getValue(String.class);
-                for(MessageRelayListener listener : listeners){
+                for(MessageRelayListener listener : observers){
                     listener.onMessageReceived();
                 }
             }
@@ -43,13 +45,13 @@ public class FirebaseMessageRelay implements MessageRelay {
         });
     }
 
-    public void addListener(MessageRelayListener listener){
+    public void addObserver(MessageRelayListener listener){
         Preconditions.checkNotNull(listener);
-        listeners.add(listener);
+        observers.add(listener);
     }
 
     public void sendMessage(String userMessage) {
-        pusher.push(userMessage);
+        firebasePusher.push(userMessage);
     }
 
     public String getNewMessage(){

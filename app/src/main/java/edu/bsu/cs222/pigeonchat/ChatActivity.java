@@ -42,7 +42,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        firebaseMessageRelay.addListener(new MessageRelayListener() {
+        firebaseMessageRelay.addObserver(new MessageRelayListener() {
             @Override
             public void onMessageReceived() {
                 newMessages = firebaseMessageRelay.getNewMessage();
