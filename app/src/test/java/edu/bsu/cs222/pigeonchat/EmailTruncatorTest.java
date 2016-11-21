@@ -1,6 +1,5 @@
 package edu.bsu.cs222.pigeonchat;
 
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;

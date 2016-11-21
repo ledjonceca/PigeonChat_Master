@@ -5,15 +5,15 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class MessageRelayTest {
-    private MessageRelay msgManager = new TestableMessageRelay();
+    private MessageRelay messageRelay = new TestableMessageRelay();
     @Test
     public void testMessagePushed(){
-        msgManager.sendMessage("hello world");
-        assertEquals("hello world", msgManager.getNewMessage());
+        messageRelay.sendMessage("hello world");
+        assertEquals("hello world", messageRelay.getNewMessage());
     }
     @Test
     public void testMessageUpdates(){
-        msgManager.sendMessage("goodbye world");
-        assertEquals("goodbye world", msgManager.getNewMessage());
+        messageRelay.sendMessage("goodbye world");
+        assertEquals("goodbye world", messageRelay.getNewMessage());
     }
 }
