@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailInput;
     private EditText passwordInput;
     private Button loginButton;
+    private TextView registerLink;
     private Toaster toaster = new Toaster(LoginActivity.this);
     private static final String TAG = "LoginActivity";
     private FirebaseAuth authenticator;
@@ -57,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         emailInput =(EditText) findViewById(R.id.etEmail);
         passwordInput =(EditText) findViewById(R.id.etPassword);
         loginButton = (Button) findViewById(R.id.bLogin);
+        registerLink = (TextView) findViewById(R.id.tvRegisterHere);
     }
 
     private void addListeners() {
@@ -64,6 +67,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        registerLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRegisterScreen();
             }
         });
 
@@ -78,6 +88,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private void goToRegisterScreen() {
+        Context currentActivity = LoginActivity.this;
+        Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+        currentActivity.startActivity( registerIntent );
     }
 
     private void logOutput(String message) {

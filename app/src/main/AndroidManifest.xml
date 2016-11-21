@@ -19,6 +19,9 @@
         <activity android:name="edu.bsu.cs222.pigeonchat.ChatActivity"
             android:label="ChatActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name="edu.bsu.cs222.pigeonchat.RegisterActivity"
+            android:label="ChatActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
