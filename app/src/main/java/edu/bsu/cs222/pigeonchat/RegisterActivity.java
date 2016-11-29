@@ -22,12 +22,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText passwordField;
     private EditText confirmPasswordField;
-
     private Button mRegisterButton;
-
     private FirebaseAuth registerAuth;
     private DatabaseReference mDatabase;
-
     private ProgressDialog mProgress;
 
 
@@ -35,23 +32,29 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         registerAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
+        setup();
         mProgress = new ProgressDialog(this);
 
+    }
+
+    private void setup() {
+        associateViewItemsWithModel();
+        addListeners();
+    }
+
+    private void addListeners() {
         emailField = (EditText) findViewById(R.id.emailField);
         passwordField = (EditText) findViewById(R.id.passwordField);
         confirmPasswordField = (EditText) findViewById(R.id.confirmPasswordField);
-
         mRegisterButton = (Button) findViewById(R.id.registerButton);
+    }
 
+    private void associateViewItemsWithModel() {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                startRegistration();
+            public void onClick(View view) {startRegistration();
 
             }
         });
