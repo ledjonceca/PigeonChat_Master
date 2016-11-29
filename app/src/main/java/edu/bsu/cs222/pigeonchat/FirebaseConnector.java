@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 
      public Firebase getRootRef() { return rootRef; }
 
+     public FirebaseAuth getAuthenticator() { return authenticator; }
+
      public FirebaseUser getUser(){
         return firebaseUser;
     }

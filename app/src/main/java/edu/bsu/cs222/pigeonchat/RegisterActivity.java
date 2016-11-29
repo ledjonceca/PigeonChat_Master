@@ -44,14 +44,14 @@ public class RegisterActivity extends AppCompatActivity {
         addListeners();
     }
 
-    private void addListeners() {
+    private void associateViewItemsWithModel() {
         emailField = (EditText) findViewById(R.id.emailField);
         passwordField = (EditText) findViewById(R.id.passwordField);
         confirmPasswordField = (EditText) findViewById(R.id.confirmPasswordField);
         mRegisterButton = (Button) findViewById(R.id.registerButton);
     }
 
-    private void associateViewItemsWithModel() {
+    private void addListeners() {
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {startRegistration();

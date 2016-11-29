@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerLink;
     private Toaster toaster = new Toaster(LoginActivity.this);
     private static final String TAG = "LoginActivity";
+    private FirebaseConnector firebaseConnector = new FirebaseConnector();
     private FirebaseAuth authenticator;
     private FirebaseAuth.AuthStateListener authListener;
 
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        authenticator = FirebaseAuth.getInstance();
+        authenticator = firebaseConnector.getAuthenticator(); //FirebaseAuth.getInstance();
         setup();
     }
 
