@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        authenticator = firebaseConnector.getAuthenticator(); //FirebaseAuth.getInstance();
+        authenticator = firebaseConnector.getAuthenticator();
         setup();
     }
 
