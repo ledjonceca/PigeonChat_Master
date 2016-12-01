@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
      private Firebase rootRef;
 
      public FirebaseConnector(){
-        rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Users");
+        rootRef = new Firebase("https://pigeonchat-e9daf.firebaseio.com/Messages");
         authenticator = FirebaseAuth.getInstance();
         firebaseUser = authenticator.getCurrentUser();
      }
