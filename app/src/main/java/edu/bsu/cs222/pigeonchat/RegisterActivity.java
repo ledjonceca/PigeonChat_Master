@@ -14,29 +14,24 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText emailField;
     private EditText passwordField;
     private EditText confirmPasswordField;
-    private Button mRegisterButton;
+    private Button registerButton;
     private FirebaseAuth registerAuth;
-    private DatabaseReference mDatabase;
-    private ProgressDialog mProgress;
-
+    private ProgressDialog progressWindow;
+    private String email, password, confirmPassword;
+    private Toaster toaster = new Toaster(RegisterActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         registerAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         setup();
-        mProgress = new ProgressDialog(this);
-
     }
 
     private void setup() {
@@ -48,46 +43,64 @@ public class RegisterActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.emailField);
         passwordField = (EditText) findViewById(R.id.passwordField);
         confirmPasswordField = (EditText) findViewById(R.id.confirmPasswordField);
-        mRegisterButton = (Button) findViewById(R.id.registerButton);
+        registerButton = (Button) findViewById(R.id.registerButton);
     }
 
     private void addListeners() {
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {startRegistration();
-
-            }
+            public void onClick(View view) { startRegistration(); }
         });
     }
 
     private void startRegistration() {
-        final String email = emailField.getText().toString().trim();
-        String password = passwordField.getText().toString().trim();
-        String confirmPassword = confirmPasswordField.getText().toString().trim();
-
-        if(!TextUtils.isEmpty(email)  && !TextUtils.isEmpty(password) &&
-                !TextUtils.isEmpty(confirmPassword) ){
-            mProgress.setMessage("Registering. Please Wait...");
-            mProgress.show();
-
-            registerAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-
-                        String user_id = registerAuth.getCurrentUser().getUid();
-                        DatabaseReference currentUserDatabase = mDatabase.child(user_id);
-                        currentUserDatabase.child("Name").setValue(email);
-                        mProgress.dismiss();
-                        Intent mainIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(mainIntent);
-
-
-                    }
-                }
-            });
+        getDataFromTextBoxes();
+        PasswordChecker passwordChecker = new PasswordChecker(password);
+        if (!TextUtils.isEmpty(email) && passwordChecker.isValid(confirmPassword) ){
+            openProgressWindow();
+            createUser();
+        }
+        else {
+            toaster.popUp("Invalid Email or password");
         }
     }
-}
 
+    private void getDataFromTextBoxes() {
+        email = emailField.getText().toString().trim();
+        password = passwordField.getText().toString().trim();
+        confirmPassword = confirmPasswordField.getText().toString().trim();
+    }
+
+    private void createUser() {
+        registerAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    completeRegistration();
+                }
+            }
+        });
+    }
+
+    private void completeRegistration() {
+        closeProgressWindow();
+        goToLoginScreen();
+    }
+
+    private void openProgressWindow() {
+        progressWindow = new ProgressDialog(this);
+        progressWindow.setMessage("Registering. Please Wait...");
+        progressWindow.show();
+    }
+
+    private void closeProgressWindow() {
+        progressWindow.dismiss();
+    }
+
+    private void goToLoginScreen() {
+        Intent mainIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(mainIntent);
+    }
+
+}
