@@ -18,11 +18,7 @@ public class FirebaseMessageRelay implements MessageRelay {
 
     public FirebaseMessageRelay(){
         rootRef = connector.getRootRef();
-        addRootRefListener();
-    }
-
-    private void addRootRefListener() {
-        rootRef.addChildEventListener(new ChildEventListener() {
+        rootRef.addChildEventListener( new ChildEventAdapter() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 newMessages = dataSnapshot.getValue(String.class);
@@ -30,18 +26,6 @@ public class FirebaseMessageRelay implements MessageRelay {
                     listener.onMessageReceived();
                 }
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {            }
         });
     }
 
