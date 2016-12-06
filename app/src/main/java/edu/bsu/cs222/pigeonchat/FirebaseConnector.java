@@ -4,7 +4,7 @@ import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
- class FirebaseConnector {
+ public class FirebaseConnector {
      private FirebaseAuth authenticator;
      private FirebaseUser firebaseUser;
      private Firebase rootRef;
