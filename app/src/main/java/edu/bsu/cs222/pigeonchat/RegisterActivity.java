@@ -64,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+
     private void getDataFromTextBoxes() {
         email = emailField.getText().toString().trim();
         password = passwordField.getText().toString().trim();
