@@ -39,6 +39,16 @@ public class PasswordStrengthCheckerTest {
         assertTrue(checker.hasASpecialChar());
     }
 
+    @Test public void testFiveCharactersTooShort(){
+        checker = new PasswordStrengthChecker("12345");
+        assertFalse(checker.hasEnoughCharcters());
+    }
+
+    @Test public void testEightCharactersIsGood(){
+        checker = new PasswordStrengthChecker("12345678");
+        assertTrue(checker.hasEnoughCharcters());
+    }
+
     @Test public void testWeakPassword() {
         checker = new PasswordStrengthChecker("password");
         assertEquals("weak", checker.checkStrength());
