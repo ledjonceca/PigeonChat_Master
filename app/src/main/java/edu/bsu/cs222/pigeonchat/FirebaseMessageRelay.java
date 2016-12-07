@@ -8,7 +8,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import java.util.List;
 
-public class FirebaseMessageRelay implements MessageRelay {
+public class FirebaseMessageRelay {
 
     private Firebase rootRef;
     private FirebaseConnector connector = new FirebaseConnector();
