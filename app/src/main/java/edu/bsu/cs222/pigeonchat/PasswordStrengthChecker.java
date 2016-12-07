@@ -1,8 +1,5 @@
 package edu.bsu.cs222.pigeonchat;
 
-/**
- * Created by brian on 12/6/2016.
- */
 
 public class PasswordStrengthChecker {
     private String password;
@@ -12,10 +9,10 @@ public class PasswordStrengthChecker {
     }
 
     public String checkStrength(){
-        if(isStrong()){
+        if(isStrongPassword()){
             return "strong";
         }
-        else if(isMedium()){
+        else if(isMediumPassword()){
             return "medium";
         }
         else{
@@ -23,11 +20,11 @@ public class PasswordStrengthChecker {
         }
     }
 
-    public boolean isStrong(){
+    private boolean isStrongPassword(){
         return this.hasEnoughCharcters() && this.hasANumber() && this.hasASpecialChar();
     }
 
-    public boolean isMedium(){
+    private boolean isMediumPassword(){
         boolean hasNonAlphabetic = this.hasANumber() || this.hasASpecialChar();
         return password.length() >= 8 && hasNonAlphabetic;
     }
