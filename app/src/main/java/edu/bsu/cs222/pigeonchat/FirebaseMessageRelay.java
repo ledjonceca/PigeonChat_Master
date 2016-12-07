@@ -9,7 +9,6 @@ import com.firebase.client.FirebaseError;
 import java.util.List;
 
 public class FirebaseMessageRelay {
-
     private Firebase rootRef;
     private FirebaseConnector connector = new FirebaseConnector();
     private String newMessages;
