@@ -1,22 +1,41 @@
 package edu.bsu.cs222.pigeonchat;
 
 public class PasswordChecker {
-    private String password;
+    private String password, confirmPassword;
 
-    public PasswordChecker(String password) {
-        this.password = password;
+    public PasswordChecker(PasswordCheckerBuilder builder) {
+        this.password = builder.password;
+        this.confirmPassword = builder.confirmPassword;
     }
 
-    public boolean isValid(String confirmPassword){
-        return notEmpty() && comparePasswords(confirmPassword);
+    public boolean isValid(){
+        return passwordIsNotEmpty() && passwordsAreTheSame();
     }
 
-    private boolean notEmpty() {
+    private boolean passwordIsNotEmpty() {
         return !(password.equals(""));
     }
 
-    public boolean comparePasswords(String confirmPassword){
+    public boolean passwordsAreTheSame(){
         return password.equals(confirmPassword);
+    }
+
+    public static class PasswordCheckerBuilder {
+        private String password, confirmPassword;
+
+        public PasswordCheckerBuilder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public PasswordCheckerBuilder confirmPasword(String confirmPassword) {
+            this.confirmPassword = confirmPassword;
+            return this;
+        }
+
+        public PasswordChecker build() {
+            return new PasswordChecker(this);
+        }
     }
 
 }

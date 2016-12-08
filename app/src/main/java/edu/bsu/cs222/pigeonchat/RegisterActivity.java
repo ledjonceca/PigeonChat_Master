@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String email, password, confirmPassword;
     private Toaster toaster = new Toaster(RegisterActivity.this);
     private TextView passwordStrengthText;
+    private PasswordChecker passwordChecker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +68,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void startRegistration() {
         getDataFromTextBoxes();
-        PasswordChecker passwordChecker = new PasswordChecker(password);
-        if (!TextUtils.isEmpty(email) && passwordChecker.isValid(confirmPassword) ){
+        PasswordChecker passwordChecker = new PasswordChecker.PasswordCheckerBuilder().password(password).confirmPasword(confirmPassword).build();
+        if (!TextUtils.isEmpty(email) && passwordChecker.isValid() ){
             openProgressWindow();
             createUser();
         }
         else {
-            toaster.popUp("Invalid Email or password");
+            toaster.popUp("Invalid Email or Passwords do not match");
         }
     }
-
 
     private void getDataFromTextBoxes() {
         email = emailField.getText().toString().trim();
