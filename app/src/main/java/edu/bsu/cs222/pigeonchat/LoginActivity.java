@@ -69,14 +69,12 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
-
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToRegisterScreen();
             }
         });
-
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

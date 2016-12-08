@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,6 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog progressWindow;
     private String email, password, confirmPassword;
     private Toaster toaster = new Toaster(RegisterActivity.this);
+    private TextView passwordStrengthText;
+    private TextWatcher textWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordField = (EditText) findViewById(R.id.passwordField);
         confirmPasswordField = (EditText) findViewById(R.id.confirmPasswordField);
         registerButton = (Button) findViewById(R.id.registerButton);
+        passwordStrengthText = (TextView) findViewById(R.id.passwordStrengthText);
     }
 
     private void addListeners() {
@@ -50,6 +56,16 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) { startRegistration(); }
         });
+        passwordStrengthText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { showPasswordStrength(); }
+        });
+    }
+
+    private void showPasswordStrength() {
+        String passwordToCheck = passwordField.getText().toString().trim();
+        PasswordStrengthChecker passwordStrengthChecker = new PasswordStrengthChecker(passwordToCheck);
+        toaster.popUp("Password is " + passwordStrengthChecker.checkStrength());
     }
 
     private void startRegistration() {
