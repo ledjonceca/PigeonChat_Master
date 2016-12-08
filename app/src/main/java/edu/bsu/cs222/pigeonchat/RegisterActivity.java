@@ -28,7 +28,6 @@ public class RegisterActivity extends AppCompatActivity {
     private String email, password, confirmPassword;
     private Toaster toaster = new Toaster(RegisterActivity.this);
     private TextView passwordStrengthText;
-    private TextWatcher textWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
