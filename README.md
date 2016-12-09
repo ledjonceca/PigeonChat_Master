@@ -1,8 +1,8 @@
 Your Pigeon Development Team:
-  Ledjon Ceca
-  Joel Levy
-  Brian Lynch
-  Filipp Shvyrkov
+  Ledjon Ceca,
+  Joel Levy,
+  Brian Lynch,
+  Filipp Shvyrkov.
 
 Pigeon is a simple message board Android application. Use it, and enjoy. Contact bsu.pigeon@gmail.com with any questions, comments, or concerns.
 
