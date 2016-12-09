@@ -26,13 +26,13 @@ public class RegisterActivity extends AppCompatActivity {
     private String email, password, confirmPassword;
     private Toaster toaster = new Toaster(RegisterActivity.this);
     private TextView passwordStrengthText;
-    private PasswordChecker passwordChecker;
+    private FirebaseConnector firebaseConnector = new FirebaseConnector();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        registerAuth = FirebaseAuth.getInstance();
+        registerAuth = firebaseConnector.getAuthenticator();
         setup();
     }
 
@@ -68,8 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void startRegistration() {
         getDataFromTextBoxes();
-        PasswordChecker passwordChecker = new PasswordChecker.PasswordCheckerBuilder().password(password).confirmPasword(confirmPassword).build();
-        if (!TextUtils.isEmpty(email) && passwordChecker.isValid() ){
+        if (inputsAreValid()){
             openProgressWindow();
             createUser();
         }
@@ -82,6 +81,10 @@ public class RegisterActivity extends AppCompatActivity {
         email = emailField.getText().toString().trim();
         password = passwordField.getText().toString().trim();
         confirmPassword = confirmPasswordField.getText().toString().trim();
+    }
+    private boolean inputsAreValid(){
+        PasswordChecker passwordChecker = new PasswordChecker.PasswordCheckerBuilder().password(password).confirmPasword(confirmPassword).build();
+        return !TextUtils.isEmpty(email) && passwordChecker.isValid();
     }
 
     private void createUser() {
