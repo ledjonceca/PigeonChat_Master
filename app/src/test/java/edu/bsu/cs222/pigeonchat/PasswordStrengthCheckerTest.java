@@ -9,37 +9,44 @@ import static org.junit.Assert.assertEquals;
 public class PasswordStrengthCheckerTest {
     private PasswordStrengthChecker checker;
 
-    @Test public void testZeroNumbers(){
+    @Test
+    public void testZeroNumbers() {
         checker = new PasswordStrengthChecker("password");
         assertFalse(checker.hasANumber());
     }
 
-    @Test public void testOneNumber(){
+    @Test
+    public void testOneNumber() {
         checker = new PasswordStrengthChecker("passw0rd");
         assertTrue(checker.hasANumber());
     }
 
-    @Test public void testMultipleNumbers(){
+    @Test
+    public void testMultipleNumbers() {
         checker = new PasswordStrengthChecker("p2as1sw0r6d7");
         assertTrue(checker.hasANumber());
     }
 
-    @Test public void testZeroSpecialChars(){
+    @Test
+    public void testZeroSpecialChars() {
         checker = new PasswordStrengthChecker("password");
         assertFalse(checker.hasASpecialChar());
     }
 
-    @Test public void testOneSpecialChar(){
+    @Test
+    public void testOneSpecialChar() {
         checker = new PasswordStrengthChecker("p@sswrd");
         assertTrue(checker.hasASpecialChar());
     }
 
-    @Test public void testMultipleSpecialChars(){
+    @Test
+    public void testMultipleSpecialChars() {
         checker = new PasswordStrengthChecker("pa%s)s(wo^rd!");
         assertTrue(checker.hasASpecialChar());
     }
 
-    @Test public void testFiveCharactersTooShort(){
+    @Test
+    public void testFiveCharactersTooShort() {
         checker = new PasswordStrengthChecker("12345");
         assertFalse(checker.hasEnoughCharcters());
     }
@@ -49,17 +56,20 @@ public class PasswordStrengthCheckerTest {
         assertTrue(checker.hasEnoughCharcters());
     }
 
-    @Test public void testWeakPassword() {
+    @Test
+    public void testWeakPassword() {
         checker = new PasswordStrengthChecker("password");
         assertEquals("weak", checker.checkStrength());
     }
 
-    @Test public void testMediumPassword(){
+    @Test
+    public void testMediumPassword() {
         checker = new PasswordStrengthChecker("passw0rd");
         assertEquals("medium", checker.checkStrength());
     }
 
-    @Test public void testStrongPassword(){
+    @Test
+    public void testStrongPassword() {
         checker = new PasswordStrengthChecker("p@ssw0rd");
         assertEquals("strong", checker.checkStrength());
     }

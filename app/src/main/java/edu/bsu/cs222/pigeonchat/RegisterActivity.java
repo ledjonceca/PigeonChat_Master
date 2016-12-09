@@ -2,10 +2,9 @@ package edu.bsu.cs222.pigeonchat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
             createUser();
         }
         else {
-            toaster.popUp("Invalid Email or Passwords do not match");
+            toaster.popUp("Invalid Email or Passwords");
         }
     }
 
@@ -83,8 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
         confirmPassword = confirmPasswordField.getText().toString().trim();
     }
     private boolean inputsAreValid(){
-        PasswordChecker passwordChecker = new PasswordChecker.PasswordCheckerBuilder().password(password).confirmPasword(confirmPassword).build();
-        return !TextUtils.isEmpty(email) && passwordChecker.isValid();
+        RegistrationValidator registrationValidator = new RegistrationValidator.RegistrationValidatorBuilder().email(email).password(password).confirmPassword(confirmPassword).build();
+        return registrationValidator.isValid();
     }
 
     private void createUser() {

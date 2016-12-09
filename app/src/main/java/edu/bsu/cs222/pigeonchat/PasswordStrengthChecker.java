@@ -3,6 +3,9 @@ package edu.bsu.cs222.pigeonchat;
 
 public class PasswordStrengthChecker {
     private String password;
+    private final String NUMBERS_CHARACTERS = "1234567890";
+    private final String SPECIAL_CHARACTERS = "!@#$%^&*()";
+    private final int MEDIUM_PASSWORD_LENGTH = 8;
 
     public PasswordStrengthChecker(String password){
         this.password = password;
@@ -30,17 +33,15 @@ public class PasswordStrengthChecker {
     }
 
     public boolean hasEnoughCharcters() {
-        return password.length() >= 8;
+        return password.length() >= MEDIUM_PASSWORD_LENGTH;
     }
 
     public boolean hasANumber() {
-        final String numberCharacters = "1234567890";
-        return countCharactersFromString(numberCharacters) > 0;
+        return countCharactersFromString(NUMBERS_CHARACTERS) > 0;
     }
 
     public boolean hasASpecialChar() {
-        final String specialCharacters = "!@#$%^&*()";
-        return countCharactersFromString(specialCharacters) > 0;
+        return countCharactersFromString(SPECIAL_CHARACTERS) > 0;
     }
 
     public int countCharactersFromString(String characterList){
