@@ -2,21 +2,17 @@ package edu.bsu.cs222.pigeonchat;
 
 import android.support.test.espresso.core.deps.guava.base.Preconditions;
 import android.support.test.espresso.core.deps.guava.collect.Lists;
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import java.util.List;
 
 public class FirebaseMessageRelay {
-    private Firebase rootRef;
-    private FirebaseConnector connector = new FirebaseConnector();
     private String newMessages;
     private final List<MessageRelayListener> observers = Lists.newArrayList();
     private Pushable firebasePusher = new FirebasePusher();
 
     public FirebaseMessageRelay(){
-        rootRef = connector.getRootRef();
+        Firebase rootRef = new FirebaseConnector().getRootRef();
         rootRef.addChildEventListener( new ChildEventAdapter() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
