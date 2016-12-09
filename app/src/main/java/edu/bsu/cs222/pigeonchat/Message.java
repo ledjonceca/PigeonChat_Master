@@ -6,7 +6,7 @@ public class Message {
 
     public Message(MessageBuilder builder)  {
         this.content = builder.content;
-        this.username = new EmailTruncator(builder.email).truncate();
+        this.username = new UsernameGenerator(builder.email).GenerateUsername();
     }
 
     String getMessageText(){

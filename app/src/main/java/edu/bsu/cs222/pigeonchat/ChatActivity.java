@@ -67,15 +67,16 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    private void goToLogin() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+
     private void setEmail() { email = connector.getName(); }
 
     private void sendMessage() {
         firebaseMessageRelay.sendMessage(createMessageToSend());
         clearMessageInputField();
-    }
-
-    private void clearMessageInputField() {
-        userMessage.getText().clear();
     }
 
     private String createMessageToSend(){
@@ -87,8 +88,8 @@ public class ChatActivity extends AppCompatActivity {
         return userMessage.getText().toString();
     }
 
-    private void goToLogin() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+    private void clearMessageInputField() {
+        userMessage.getText().clear();
     }
+
 }

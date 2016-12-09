@@ -63,18 +63,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void addListeners() {
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToRegisterScreen();
             }
         });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -94,8 +96,14 @@ public class LoginActivity extends AppCompatActivity {
         currentActivity.startActivity( registerIntent );
     }
 
-    private void logOutput(String message) {
-        Log.d(TAG, message);
+    private void attemptLogin() {
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            toaster.popUp("Please enter an email or password");
+        } else {
+            validateLogin(email, password);
+        }
     }
 
     private void signIn(FirebaseUser user) {
@@ -108,17 +116,6 @@ public class LoginActivity extends AppCompatActivity {
         logOutput("Auth-State changed: A user has signed out");
     }
 
-    private void attemptLogin() {
-        String email = emailInput.getText().toString();
-        String password = passwordInput.getText().toString();
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
-            toaster.popUp("Please enter an email or password");
-        }
-        else{
-            validateLogin(email, password);
-        }
-    }
-
     private void validateLogin(String email, String password) {
         authenticator.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -128,6 +125,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void logOutput(String message) {
+        Log.d(TAG, message);
     }
 
     private void openChatActivity() {

@@ -49,13 +49,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void addListeners() {
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { startRegistration(); }
-        });
         passwordStrengthText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { showPasswordStrength(); }
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startRegistration();
+            }
         });
     }
 
@@ -81,9 +84,16 @@ public class RegisterActivity extends AppCompatActivity {
         password = passwordField.getText().toString().trim();
         confirmPassword = confirmPasswordField.getText().toString().trim();
     }
+
     private boolean inputsAreValid(){
         RegistrationValidator registrationValidator = new RegistrationValidator.RegistrationValidatorBuilder().email(email).password(password).confirmPassword(confirmPassword).build();
         return registrationValidator.isValid();
+    }
+
+    private void openProgressWindow() {
+        progressWindow = new ProgressDialog(this);
+        progressWindow.setMessage("Registering. Please Wait...");
+        progressWindow.show();
     }
 
     private void createUser() {
@@ -100,12 +110,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void completeRegistration() {
         closeProgressWindow();
         goToLoginScreen();
-    }
-
-    private void openProgressWindow() {
-        progressWindow = new ProgressDialog(this);
-        progressWindow.setMessage("Registering. Please Wait...");
-        progressWindow.show();
     }
 
     private void closeProgressWindow() {
